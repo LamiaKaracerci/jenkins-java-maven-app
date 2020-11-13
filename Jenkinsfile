@@ -1,19 +1,16 @@
 pipeline {
     agent any
+
     stages {
-        stage('Build') {
+        stage('Paket Yükleme') { 
             steps {
-                sh 'mvn -B -DskipTests clean package'
+                sh 'dotnet restore' 
             }
         }
-        stage('Test') {
+
+        stage('Derleme') { 
             steps {
-                sh 'mvn test'
-            }
-            post {
-                always {
-                    junit 'target/surefire-reports/*.xml'
-                }
+                sh 'dotnet build --configuration Release' 
             }
         }
     }
